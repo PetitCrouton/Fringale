@@ -1,0 +1,26 @@
+{% extends "admin_layout.html.twig" %}
+{% set active = 'admin' %}
+{% set adminActive = 'regions' %}
+
+{% block title 'Edition Région' %}
+    
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+    		<h1 class="text-center">Edition Région</h1>
+    
+		    <form method="post" class="well">		
+				<div class="form-group">
+					<label>Région</label>
+					<input type="text" name="region_name" value="{{ region.region_name }}" class="form-control">
+				</div>
+		        <button type="submit" class="btn btn-primary">Enregistrer</button>
+		        <a href="{{ path('admin_regions')}}" class="btn btn-default">Annuler</a>
+		    </form>
+		</div>
+	</div>
+</div>
+	</div>
+	</div>
+{% endblock %}

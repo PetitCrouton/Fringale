@@ -1,0 +1,133 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="rw-container rw-section">
+    <div class="rw-inner clearfix">
+    <!-- Main content -->
+    <div class="rw-column rw-content">
+
+        <div class="rw-row page-breadcrumb">
+            <a href="{{ path('homepage') }}">Accueil</a> &raquo; <span>Profil de {{ user.username }}</span>
+        </div>
+        <div class="rw-row page-title">
+            <div class="grid-container">
+                <div class="grid desk-8 mob-8 alpha">
+                    <h1>Profil de {{ user.username }}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rw-row subtle">
+        <div class="grid-container">
+
+            <div class="grid desk-12">
+                <ul class="profile-mini-menu">
+                    <li class="active"><a href="#user-summary">En Bref</a></li>
+                </ul> <!-- .profile-mini-menu -->
+            </div>
+            <div class="clear"></div>
+            <div class="grid desk-3">
+                <div class="profile-avatar">
+                    {% if user.user_picture %}
+                        <div><img class="img-responsive" src="{{ asset('photo/' ~ user.user_picture) }}" width="256px" height="256px"/></div>
+                    {% else %}
+                        <div><img class="img-responsive" src="https://www.gravatar.com/avatar/{{gravatar}}?d=retro&s=150" /></div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid desk-9">
+
+                <div id="user-summary" class="profile-user-tab active">
+                    <div class="grid desk-6 alpha">
+                        <ul class="profile-rows">
+                            <li>
+                                <i class="the-icon fa fa-user"></i>
+                                <span class="the-label">Pseudo: </span>
+                                <span class="the-value mark purple">{{ user.username }}</span>
+                            </li>
+                            <li>
+                                <i class="the-icon fa fa-home"></i>
+                                <span class="the-label">Region: </span>
+                                <span class="the-value">{{ region.region_name }}</span>
+                            </li>
+                            <li>
+                                <i class="the-icon fa fa-globe"></i>
+                                <span class="the-label">Statut: </span>
+                                <span class="the-value">{{ user.status }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="grid desk-6 omega">
+                        <div class="following-block clearfix">
+                            <div class="follow-col reputation">
+                                <div class="follow-col-in">
+                                    <span class="count">{{ nb_myRecipe }}</span><span class="title">Recettes</span>
+                                </div>
+                            </div>
+                            <div class="follow-col followers">
+                                <div class="follow-col-in">
+                                    <span class="count">{{ nb_myRatings }}</span><span class="title">Notes</span>
+                                </div>
+                            </div>
+                            <div class="follow-col following">
+                                <div class="follow-col-in">
+                                    <span class="count">{{ nb_myComments }}</span><span class="title">Commentaires</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div> <!-- #user-summary -->
+            </div>
+            <div class="clear"></div>
+
+            <div class="rw-row subtle border-bottom profile-main-menu-block">
+                <div class="grid-container">
+                    <div class="grid desk-12">
+                        <div class="profile-main-menu">
+                            <ul>
+                                <li class="active">
+                                    <a href="{{ path("user_profil") }}">
+                                        <span class="title">Recettes</span>
+                                        <span class="count">{{ nb_myRecipe }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- .grid-container -->
+            </div> <!-- .rw-row -->
+
+            <div class="rw-row subtle">
+                <div class="grid-container">
+                    <div class="profile-recipes-list">
+                        {% for recipe in recipe %}
+                            <div class="grid desk-6">
+                                <div class="recipe">
+                                    <div class="photo">
+                                        <a href="{{  path('recipe_index', {id_recipe: recipe.id_recipe}) }}"><img src="{{ asset('photo/' ~ recipe.picture_recipe) }}" width="80px" height="80px" ></a>
+                                    </div>
+                                    <div class="title"><a href="{{  path('recipe_index', {id_recipe: recipe.id_recipe}) }}">{{ recipe.title }}</a></div>
+                                    <div class="info">
+                                        <span class="info-item">{{ recipe.date_recipe|date('d/m/Y') }}</span>
+                                    </div>
+                                    <div class="info">
+                                        <span class="info-item">Ingredient Principal : {{ recipe.star_ingredient }}</a></span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <hr />
+                </div> <!-- .grid-container -->
+            </div> <!-- .rw-row -->
+
+        </div> <!-- .grid-container -->
+    </div> <!-- .rw-row -->
+
+{% endblock %}

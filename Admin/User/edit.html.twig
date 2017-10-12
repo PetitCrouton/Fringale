@@ -1,0 +1,63 @@
+{% extends "admin_layout.html.twig" %}
+{% set active = 'admin' %}
+{% set adminActive = 'users' %}
+
+{% block title 'Edition Utilisateur' %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1 class="text-center">Edition Utilisateur</h1>
+
+				<form method="post" class="well">
+					<div class="form-group">
+						<label>Pseudo</label>
+						<input type="text" name="username" value="{{ user.username }}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Civilité</label>
+						<select class="form-control" name="civility" id="civility">
+							<option></option>
+							<option value="m" {% if user.civility == 'm' %}selected{% endif %}>M</option>
+							<option value="mme" {% if user.civility == 'mme' %}selected{% endif %}>Mme</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Nom</label>
+						<input type="text" name="lastname" value="{{ user.lastname }}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Prénom</label>
+						<input type="text" name="firstname" value="{{ user.firstname }}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Email</label>
+						<input type="text" name="email" value="{{ user.email }}" class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Région</label>
+						<select class="form-control" name="region" id="id_region">
+							<option>Région</option>
+                            {% for region in regions %}
+
+								<option value="{{ region.id_region }}" {% if region.id_region == user.id_region %}selected{% endif %}>{{ region.region_name }}</option>
+
+                            {% endfor %}
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Rôle</label>
+						<select class="form-control" name="status" id="status">
+							<option></option>
+							<option value="membre" {% if user.status == 'membre' %}selected{% endif %}>membre</option>
+							<option value="admin" {% if user.status == 'admin' %}selected{% endif %}>admin</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Enregistrer</button>
+					<a href="{{ path('admin_users')}}" class="btn btn-default">Annuler</a>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

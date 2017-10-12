@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% block secondaryNavigation %}
+    <div class="rw-container rw-section">
+        <div class="rw-inner clearfix">
+            <!-- Main content -->
+            <div class="rw-column rw-content">
+                <ul class="nav nav-tabs">
+                    <li {% if adminActive == 'users' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_users') }}">{{ 'Utilisateurs' }}</a>
+                    </li>
+                    <li {% if adminActive == 'recipes' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_recipes') }}">{{ 'Recettes' }}</a>
+                    </li>
+                    <li {% if adminActive == 'comments' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_comments') }}">{{ 'Commentaires' }}</a>
+                    </li>
+                    <li {% if adminActive == 'regions' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_regions') }}">{{ 'Régions' }}</a>
+                    </li>
+                </ul>
+
+{% endblock %}

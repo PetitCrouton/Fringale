@@ -1,0 +1,43 @@
+{% extends "admin_layout.html.twig" %}
+{% set active = 'admin' %}
+{% set adminActive = 'comments' %}
+
+{% block title 'Admin Commentaires' %}
+    
+{% block content %}
+    <div class="grid-container">
+        <div class="grid desk-12">
+        <h1 class="text-center">Gestion Commentaires</h1>
+
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>
+                    <a href="{{ path('admin_comments', {col: 'username', order: 'DESC'}) }}"><span class="glyphicon glyphicon-arrow-down"></span></a>
+                    Pseudo membre
+                    <a href="{{ path('admin_comments', {col: 'username', order: 'ASC'}) }}"><span class="glyphicon glyphicon-arrow-up"></span></a>
+                </th>
+                <th>Titre recette</th>
+                <th>Commentaire</th>
+                <th>Actions</th>
+            </tr>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.id_comment }}</td>
+                    <td>{{ comment.userName }}</td>
+                    <td>{{ comment.recipeName }}</td>
+                    <td>{{ comment.content }}</td>
+                    <td>
+                        <a href="{{ path('admin_comment_delete', {id_comment: comment.id_comment}) }}"
+                           class="btn btn-danger">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    </div>
+    </div>
+    </div>
+{% endblock %}

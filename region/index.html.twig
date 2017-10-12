@@ -1,0 +1,113 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="rw-container rw-section">
+        <div class="rw-inner clearfix">
+
+            <!-- Main content -->
+            <div class="rw-column rw-content">
+
+                <div class="rw-row subtle large home-recipe-of-the-day">
+                    <div class="grid-container">
+                        <div class="grid desk-6">
+                            <div class="entry-photo">
+                                <div class="badge">{{ region.region_name }}</div>
+                                <img id="photoRegion" src="{{ asset('img/' ~ regionDetail.picture_region) }}" alt=""/>
+                            </div>
+                        </div>
+                        <div class="grid desk-6">
+                            <h3><a href="#">{{ region.region_name }}</a></h3>
+                            <p>{{ regionDetail.region_story }}</p>
+                            <p>{{ regionDetail.details }}</p>
+
+
+                            <div class="clear"></div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="rw-row subtle large">
+
+                    <div class="grid-container carousel-container">
+
+                        <div class="grid desk-6 mob-6">
+                            <h4 class="carousel-posts-heading">TOP des recettes de la région !</h4>
+                        </div>
+                        <div class="grid desk-6 mob-6">
+                            <div class="carousel-posts-nav clearfix">
+                                <div class="carousel-posts-nav-next"><i class="fa fa-chevron-right"></i></div>
+                                <div class="carousel-posts-nav-prev"><i class="fa fa-chevron-left"></i></div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+                        <div class="home-carousel-posts clearfix">
+                            <!-- Entry -->
+                            {% for topRegions in topRegions %}
+                                <div class="entry style-columns">
+                                    <div class="entry-photo">
+                                        <img id="photo-top5" src="{{ asset('photo/' ~ topRegions.picture_recipe) }}" alt=""/>
+                                    </div>
+                                    <div class="entry-title">
+                                        <a href="{{  path('recipe_index', {id_recipe: topRegions.id_recipe}) }}">{{ topRegions.title }}</a>
+                                    </div>
+                                    <div class="entry-meta">
+                                        <span class="date">{{ topRegions.date_recipe|date('Y/m/d') }}</span>
+                                    </div>
+                                    <div class="entry-content">
+                                        <p>Auteur : {{ topRegions.username }}</p>
+                                    </div>
+                                </div> <!-- .entry -->
+                            {% endfor %}
+
+                        </div> <!-- .home-carousel-posts -->
+
+                    </div>
+
+                </div> <!-- .rw-row -->
+
+                <div class="rw-row subtle large border-tb">
+
+                    <div class="grid-container carousel-container">
+
+                        <div class="grid desk-6 mob-6">
+                            <h4 class="carousel-posts-heading">Les dernières recettes de la région </h4>
+                        </div>
+                        <div class="grid desk-6 mob-6">
+                            <div class="carousel-posts-nav clearfix">
+                                <div class="carousel-posts-nav-next"><i class="fa fa-chevron-right"></i></div>
+                                <div class="carousel-posts-nav-prev"><i class="fa fa-chevron-left"></i></div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+
+                        <div class="home-carousel-posts clearfix">
+
+                            <!-- Entry -->
+                              {% for lastRegion in lastRegion %}
+                            <div class="entry style-columns">
+                                <div class="entry-photo">
+                                    <img id="photo-top5" src="{{ asset('photo/' ~ lastRegion.picture_recipe) }}" alt=""/>
+                                </div>
+                                <div class="entry-title">
+                                    <a href="{{  path('recipe_index', {id_recipe: lastRegion.id_recipe}) }}">{{ lastRegion.title }}</a>
+                                </div>
+                                <div class="entry-meta">
+                                    <span class="date">{{ lastRegion.date_recipe|date('Y/m/d') }}</span>
+                                </div>
+                                <div class="entry-content">
+                                    <p>Auteur : {{ lastRegion.username }}</p>
+                                </div>
+                            </div> <!-- .entry -->
+                              {% endfor %}
+
+                        </div> <!-- .home-carousel-posts -->
+                    </div>
+                </div> <!-- .rw-row -->
+
+            </div>
+
+        </div> <!-- .rw-inner -->
+    </div> <!-- .rw-container -->
+{% endblock %}

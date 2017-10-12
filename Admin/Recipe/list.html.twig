@@ -1,0 +1,68 @@
+{% extends "admin_layout.html.twig" %}
+{% set active = 'admin' %}
+{% set adminActive = 'recipes' %}
+
+{% block title 'Admin Recettes' %}
+
+{% block content %}
+    <h1 class="text-center">Gestion Recettes</h1>
+    {% for recipe in recipes %}
+    <div class="grid-container">
+        <div class="grid desk-12">
+            <hr>
+            <div class="starter-template text-center">
+                <h2>{{ recipe.title }}</h2>
+                <p>créée le {{ recipe.date_recipe | date('d-m-Y') }} par <a
+                            href="{{ path('user_profil_public',{id_user:recipe.id_user}) }}">{{ recipe.userName }}</a>
+                </p>
+                <p>
+                    <a href="{{ path('admin_recipe_validate', {id_recipe: recipe.id_recipe}) }}"
+                       class="btn btn-success">
+                        Valider
+                    </a>
+                    <a href="{{ path('admin_recipe_delete', {id_recipe: recipe.id_recipe}) }}"
+                       class="btn btn-danger">
+                        Supprimer
+                    </a>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading text-center">
+                            <img src="{{ asset('photo/' ~ recipe.picture_recipe) }}"
+                                 class="img-responsive img-thumbnail"
+                                 width="500px">
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-sm-6">
+                                <p>Nombre de personnes : {{ recipe.portion }}</p>
+                                <p>Temps de préparation : {{ recipe.prep_time }}</p>
+                                <p>Temps de cuisson : {{ recipe.cook_time }}</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p>Difficulté : {{ recipe.difficulty }}</p>
+                                <p>Région de la recette : {{ recipe.regionName }}</p>
+                                <p>Anecdote : {{ recipe.story }}</p>
+                            </div>
+                            <div class="col-sm-12">
+                                <p>
+                                    Ingrédients de la recette :
+                                <p>{{ recipe.ingredients }}</p>
+                                </p>
+                                <p>
+                                    Etapes de la recette :
+                                <p>{{ recipe.methods }}</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+{% endblock %}

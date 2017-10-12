@@ -1,0 +1,154 @@
+{% extends "layout.html.twig" %}
+
+{% block title 'Creation Recette' %}
+
+{% block content %}
+    <div class="rw-section rw-container right-sidebar">
+        <div class="rw-inner clearfix">
+
+            <!-- Sidebar -->
+            <div class="rw-column rw-sidebar">
+                <div class="the-sidebar">
+                    <!-- Widget -->
+                    <aside class="widget widget-search">
+
+                        <div class="widget-title"><h3>Recherche :</h3></div>
+
+
+                        <form action="" method="post" id="myForm">
+                            <input type="hidden" name="page" value="1">
+                            <div class="form-group">
+                                <label>Ingrédient Principal</label>
+                                <select id="star_ingredient" name="star_ingredient" class="field fullwidth form-control">
+                                    <option value="">Choisissez</option>
+                                    <option name="viande" value="viande">Viande</option>
+                                    <option name="poisson" value="poisson">Poisson</option>
+                                    <option name="fruits de mer" value="fruits de mer">Fruits de mer</option>
+                                    <option name="vegetarien" value="vegetarien">Vegetarien</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Difficulté</label>
+                                <select id="difficulty" name="difficulty" class="form-control">
+                                    <option value="">Choisissez</option>
+                                    <option name="1" value="1">Facile</option>
+                                    <option name="2" value="2">Moyen</option>
+                                    <option name="3" value="3">Difficile</option>
+                                    <option name="4" value="4">Trés Difficile</option>
+                                    <option name="5" value="5">Guide Michelin</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Temps de Préparation</label>
+                                <select id="prep_time" name="prep_time" class="form-control">
+                                    <option value="">Choisissez</option>
+                                    <option name="1" value="'00:00:00' AND '00:29:59'">Moins de 30 minutes</option>
+                                    <option name="2" value="'00:30:00' AND '00:59:59'">Entre 30 minues et 1 heure</option>
+                                    <option name="3" value="'01:00:00' AND '01:59:59'">Entre 1 heure et 2 heures</option>
+                                    <option name="4" value="'02:00:00' AND '24:00:00'">Supérieur a 2 heures</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Temps de Cuisson</label>
+                                <select id="cook_time" name="cook_time" class="form-control">
+                                    <option value="">Choisissez</option>
+                                    <option name="1" value="'00:00:00' AND '00:29:59'">Moins de 30 minutes</option>
+                                    <option name="2" value="'00:30:00' AND '00:59:59'">Entre 30 minues et 1 heure</option>
+                                    <option name="3" value="'01:00:00' AND '01:59:59'">Entre 1 heure et 2 heures</option>
+                                    <option name="4" value="'02:00:00' AND '24:00:00'">Supérieur a 2 heures</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Portions</label>
+                                <select id="portion" name="portion" class="form-control">
+                                    <option value="">Choisissez</option>
+                                    <option name="2/3" value="2 AND 3">Entre 2 et 3 personnes</option>
+                                    <option name="4/5" value="'4' AND '5'">Entre 4 et 5 personnes</option>
+                                    <option name="5/6" value="'6' AND '7'">Entre 6 et 7 personnes</option>
+                                    <option name="8+" value="'8' AND '99'">Plus de 8 personnes</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="button primary form-control">Rechercher</button>
+                            <!--  <div id="response-div">
+
+                              </div>-->
+                        </form>
+                    </aside> <!-- .widget -->
+                    <!-- / Widget -->
+                    <aside class="widget widget-categories">
+                        <div class="widget-title"><h3>Ajoutez une recette !</h3></div>
+                        <div class="widget-content">
+                            <p>A vous de jouer ! Ajoutez une nouvelle recette pour montrer votre talent et représenter votre région ! <a href="{{ path('recipe_create') }}">C'est parti !</a></p>
+                        </div> <!-- .entry -->
+                    </aside> <!-- .widget -->
+
+                </div> <!-- .the-sidebar -->
+            </div> <!-- .rw-sidebar -->
+
+
+            <!-- Main content -->
+            <div class="rw-column rw-content">
+
+                <div class="rw-row page-breadcrumb">
+                    <a href="{{ path('homepage') }}">Accueil</a>  &raquo; <span>Rechercher une recette</span>
+                </div>
+                <div class="rw-row page-title">
+                    <h1>Rechercher une recette</h1>
+                </div>
+
+
+                <div class="rw-row subtle">
+                    <div class="grid-container">
+                        <div class="profile-recipes-list">
+                            <div class="grid desk-12">
+                                <div  id="response-div">
+
+                                    <!-- Le retour de la recherche AJAX -->
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div> <!-- .rw-content -->
+        </div> <!-- .rw-inner -->
+    </div> <!-- .rw-container -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var postUrl = '{{ path('recipe_search_ajax') }}';
+
+        $('#myForm').submit(function (event) {
+            event.preventDefault();
+            var $this = $(this);
+
+            var data = $this.serialize();
+
+            $.post(
+                postUrl,
+                data,
+                function (response) {
+                    $('#response-div').html(response);
+
+                },
+                'html'
+            )
+        });
+
+        $('#response-div').on('click', '.pagination', function (event) {
+            var page = $(this).data('page');
+
+            var $form = $('#myForm');
+
+            $('input[name="page"]', $form).val(page);
+            $form.submit();
+        });
+
+    </script>
+{% endblock %}

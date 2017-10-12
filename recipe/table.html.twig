@@ -1,0 +1,34 @@
+{% if message is not same as("ok") %}
+    <div class="alert alert-info text-center">{{ message }}</div>
+{% else %}
+    <div class="rw-row subtle">
+        <div class="grid-container">
+            <div class="profile-recipes-list">
+                {% for recipe in recipes %}
+                    <div class="grid desk-6">
+                        <div class="recipe">
+                            <div class="photo">
+                                <a href="#"><img id="image_filtre" src="{{ asset('photo/' ~ recipe.picture_recipe) }}"></a>
+                            </div>
+                            <div class="title"><a href="{{  path('recipe_index', {id_recipe: recipe.id_recipe}) }}">{{ recipe.title }}</a></div>
+                            <div class="info">
+                                <span class="info-item">Preparation : {{ recipe.prep_time|date('H') }} heure(s) {{ recipe.prep_time|date('i') }} minutes</span><br>
+                                <span class="info-item">Cuisson : {{ recipe.cook_time|date('H') }} heure(s) {{ recipe.cook_time|date('i') }} minutes</span><br>
+                                <span class="info-item">Ingredient Principal : {{ recipe.star_ingredient }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <hr />
+        </div> <!-- .grid-container -->
+    </div> <!-- .rw-row -->
+    <div class="button-block center">
+    {% for page in 1..nbPages %}
+        <button type="button" class="pagination button primary" data-page="{{ page }}">{{ page }}<br>
+    {% endfor %}
+        </button>
+    </div>
+{% endif %}

@@ -1,0 +1,58 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <div class="rw-container rw-section">
+        <div class="rw-inner clearfix">
+            <!-- Main content -->
+
+            <div class="rw-row page-breadcrumb">
+                <a href="{{ path('homepage') }}">Accueil</a> &raquo; <span>Qui sommes nous ?</span>
+            </div>
+            <div class="rw-row page-title">
+                <h1>Qui sommes-nous?</h1>
+            </div>
+            <div class="rw-column rw-content">
+                <div class="rw-row subtle large">
+                    <div class="grid-container">
+                        <div class="grid desk-6">
+                            <div class="entry-photo">
+                                <img src="{{ asset('img/wf3.png') }}" alt="Logo WebForce3"/>
+                            </div>
+                        </div>
+                        <div class="grid desk-6">
+                            <h3>Il était une fois...</h3>
+                            <p>
+                                ...une équipe de codeurs de l'école <a href="http://www.wf3.fr/"
+                                                                                target="_blank">WebForce3</a>,
+                                passionnés de cuisine française.
+                                <br>Nous avons voulu à travers ce site partager les trésors culinaires de nos terroirs.
+                                <br>Pour toute question ou suggestion, n'hésitez pas à nous contacter !
+                            </p>
+                            <p>
+                                Equipe composée de 5 personnes :<br>
+
+                                - Bob Bob<br>
+                                - Bob Bob<br>
+                                - Bob Bob<br>
+                                - Bob Bob<br>
+                                - Bob Bob<br>
+
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br>
+                                Ad aspernatur autem culpa distinctio doloribus eius facilis fugiat ipsam laborum nam officiis, porro quasi <br>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. <br>
+                                Ad aspernatur autem culpa distinctio doloribus eius facilis fugiat ipsam laborum nam officiis, porro quasi <br>
+                                ratione reiciendis repellendus temporibus veritatis voluptatem. Beatae?
+                                Ad aspernatur autem culpa distinctio doloribus eius facilis fugiat ipsam laborum nam officiis, porro quasi <br>
+                            </p>
+                            <span class="icon"><i class="the-icon fa fa-comments"></i></span>
+                            <a href="{{ path('contact_index') }}">Contactez-nous !</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- .rw-inner -->
+    </div> <!-- .rw-container -->
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "admin_layout.html.twig" %}
+
+{% set active = 'admin' %}
+{% set adminActive = 'users' %}
+
+{% block title 'Admin Utilisateurs' %}
+
+{% block content %}
+            <div class="grid-container">
+                <div class="grid desk-12">
+                    <h1 class="text-center">Gestion Utilisateurs</h1>
+
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <th>
+                                <a href="{{ path('admin_users', {col: 'username', order: 'DESC'}) }}"><span
+                                            class="glyphicon glyphicon-arrow-down"></span></a>
+                                Pseudo
+                                <a href="{{ path('admin_users', {col: 'username', order: 'ASC'}) }}"><span
+                                            class="glyphicon glyphicon-arrow-up"></span></a>
+                            </th>
+                            <th>Civilité</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Région</th>
+                            <th>Rôle</th>
+                            <th>Actions</th>
+                        </tr>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id_user }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.civility }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.regionName }}</td>
+                                <td>{{ user.status }}</td>
+                                <td>
+                                    <a href="{{ path('admin_user_edit', {id_user: user.id_user}) }}"
+                                       class="btn btn-primary">
+                                        Modifier
+                                    </a>
+                                    <a href="{{ path('admin_user_delete', {id_user: user.id_user}) }}"
+                                       class="btn btn-danger">
+                                        Supprimer
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

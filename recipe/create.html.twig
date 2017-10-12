@@ -1,0 +1,197 @@
+{% extends "layout.html.twig" %}
+
+{% block title 'Creation Recette' %}
+
+{% block content %}
+<div class="rw-section rw-container right-sidebar">
+    <div class="rw-inner clearfix">
+        <!-- Sidebar -->
+        <div class="rw-column rw-sidebar">
+            <div class="the-sidebar">
+
+                <!-- Widget -->
+                <aside class="widget widget-posts">
+
+                    <div class="widget-title"><h3>Les plus commentées</h3></div>
+                    <div class="widget-posts-list">
+                        <!-- Entry -->
+                        {% for topComment in topComment %}
+                            <div class="post">
+                                <div class="entry-photo">
+                                    <img src="{{ asset('photo/' ~ topComment.picture_recipe) }}" alt="photo recette">
+                                </div>
+                                <div class="entry-title">
+                                    <a href="{{ path('recipe_index', {id_recipe: topComment.id_recipe}) }}">{{ topComment.title }}</a>
+                                </div>
+                                <div class="entry-controls minimal">
+                                    <span class="control-tip"> <i
+                                                class="fa fa-comments"></i> {{ topComment.topComment }}</span>
+                                </div>
+                            </div> <!-- .entry -->
+                        {% endfor %}
+                    </div>
+
+                </aside> <!-- .widget -->
+                <!-- / Widget -->
+
+                <!-- Widget -->
+                <aside class="widget widget-categories">
+
+                    <div class="widget-title"><h3>Categories</h3></div>
+                    {% for totalStarIngredient in totalStarIngredient %}
+                        <ul>
+                            <li><a href="{{ path('recipe_list') }}">{{ totalStarIngredient.star_ingredient }} <span
+                                            class="mark light-gray">{{ totalStarIngredient.total }}</span></a></li>
+                        </ul>
+                    {% endfor %}
+                </aside> <!-- .widget -->
+                <!-- / Widget -->
+
+                <!-- Widget -->
+                <aside class="widget widget-authors">
+
+                    <div class="widget-title"><h3>Les plus actifs !</h3></div>
+                    <ul>
+                        {% for topAuthor in topAuthor %}
+                            <li>
+                                <img src="{% if topAuthor.user_picture %}{{ asset('photo/' ~ topAuthor.user_picture) }}{% else %}https://www.gravatar.com/avatar/{{topAuthor.username|gravatar_hash}}?d=retro&s=150{% endif %}" alt="avatar utilisateur">
+                                <div class="author-name"><a
+                                            href="{{ path('user_profil_public',{id_user: topAuthor.id_user}) }}">{{ topAuthor.username }}</a>
+                                    <span class="mark green" title="Pro member!">Pro</span>
+                                </div>
+                                <div class="author-meta">
+                                    <span class="meta" title="421 total recipes submited"><i
+                                                class="fa fa-newspaper-o"></i> Nombre de recettes : {{ topAuthor.result }}</span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </aside> <!-- .widget -->
+            </div> <!-- .the-sidebar -->
+        </div> <!-- .rw-sidebar -->
+
+
+        <!-- Main content -->
+        <div class="rw-column rw-content">
+
+            <div class="rw-row page-breadcrumb">
+                <a href="{{ path('homepage') }}">Accueil</a> &raquo; <span>Ajout Recette</span>
+            </div>
+            <div class="rw-row page-title">
+                <h1>Ajoutez une recette !</h1>
+            </div>
+
+            <div class="rw-row">
+
+                <div class="grid-container">
+                    <form method="post" enctype="multipart/form-data">
+                        <div class="grid desk-8 alpha">
+                            <div class="form-label">Titre de votre recette</div>
+                            <input name="title" type="text" class="fullwidth"/>
+                        </div>
+                        <div class="grid desk-4 omega">
+                            <div class="form-label">Ingrédient principal</div>
+                            <select name="star_ingredient" class="fullwidth">
+                                <option></option>
+                                <option value="viande">Viande</option>
+                                <option value="poisson">Poisson</option>
+                                <option value="fruits de mer">Fruits de mer</option>
+                                <option value="vegetarien">Vegetarien</option>
+                            </select>
+                        </div>
+                        <div class="grid desk-12 both">
+                            <div class="form-label">Photo</div>
+                            <div class="form-description">Vous pouvez uploader
+                                <ins>1</ins>
+                                photo maximum, avec un poids de
+                                <ins>2Mb</ins>
+                                maximum. Extension acceptées: jpg jpeg, png, gif.
+                            </div>
+                            <input type="file" name="picture_recipe" class="form-control">
+                        </div>
+                        <hr>
+                        <div class="grid desk-7 alpha">
+                            <div class="form-label">Difficulté de réalisation</div>
+                            <div class="form-description">Indiquez le niveau de difficulté de réalisation de votre
+                                recette.
+                            </div>
+                            <div class="visual-select">
+                                <label><input type="radio" name="difficulty" value="1" data-label="Facile"
+                                              checked></label>
+                                <label><input type="radio" name="difficulty" value="2" data-label="Moyen"></label>
+                                <label><input type="radio" name="difficulty" value="3" data-label="Difficile"></label>
+                                <label><input type="radio" name="difficulty" value="4"
+                                              data-label="Tres Difficile"></label>
+                                <label><input type="radio" name="difficulty" value="5"
+                                              data-label="Guide Michelin"></label><br><br>
+                            </div>
+                        </div>
+                        <div class="grid desk-5 omega">
+                            <div class="form-label">Nombre de personnes</div>
+                            <div class="form-description">Pour combien de convive serat votre recette ?</div>
+                            <input type="text" name="portion"> personne(s)
+                        </div>
+
+                        <div class="grid desk-12 both">
+                            <div class="form-label">Région</div>
+                            <div class="form-description">De qu'elle régions vient votre recette ?</div>
+                            <select name="id_region" class="fullwidth">
+                                <option></option>
+                                {% for region in regions %}
+                                    <option value="{{ region.id_region }}">{{ region.region_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="grid desk-6 alpha">
+                            <div class="form-label">Temps de préparation</div>
+                            <div class="form-description">Indiquer en minute le temps de prépation de votre recette
+                            </div>
+                            <input name="prep_time" type="number"/> minutes
+                        </div>
+
+                        <div class="grid desk-6 omega">
+                            <div class="form-label">Temps de cuisson</div>
+                            <div class="form-description">Indiquer en minute le temps de cuisson de votre recette</div>
+                            <input name="cook_time" type="number"/> minutes
+                        </div>
+                        <hr/>
+                        <div class="grid desk-12 both">
+                            <div class="form-label">Liste des ingrédients</div>
+                            <div class="form-description">Indiquez ici, les ingrédients nécessaire avec leurs
+                                quantitées...
+                            </div>
+                            <textarea name="ingredients" class="big" placeholder="- 200gr de beurre"></textarea>
+                        </div>
+                        <hr/>
+                        <div class="grid desk-12 both">
+                            <div class="form-label">Etapes de votre recette</div>
+                            <div class="form-description">Détaillez ici, étapes par étapes et dans l'ordre votre
+                                recette.
+                            </div>
+                            <textarea name="methods" class="big"
+                                      placeholder="Etape 1 - épluchez les oignons"></textarea>
+                        </div>
+                        <p class="clearfix"></p>
+                        <hr/>
+                        <div class="grid desk-12 both">
+                            <div class="form-label">Histoire ou anecdote sur votre recette</div>
+                            <div class="form-description">Racontez ici, l'histoire de votre recette, d'où vient elle ?
+                                ou si vous avez des suggestions de boissons. Peut être existe-il des ingrédients de
+                                substitution ?
+                            </div>
+                            <textarea name="story"></textarea>
+                        </div>
+
+                        <div class="grid desk-12 both">
+                            <input type="submit" value="Enregistrer" class="button primary"/>
+                        </div>
+                    </form>
+                </div> <!-- .grid-container -->
+            </div> <!-- rw-row -->
+        </div> <!-- .content -->
+    </div> <!-- .rw-container -->
+</div>
+
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends "layout.html.twig" %}
+{% block content %}
+
+    <div class="rw-section rw-container right-sidebar">
+        <div class="rw-inner clearfix">
+            <!-- Sidebar -->
+            <div class="rw-column rw-sidebar">
+                <div class="the-sidebar">
+
+                    <aside class="widget">
+                        <div class="widget-title"><h3>Notez la recette !</h3></div>
+                        {% if user_manager.getUser() %}
+                            <div class="widget-posts-list">
+                                <div id="hearts" class="starrr lead"></div>
+                                <p>Vous avez donné une note de <span id="count">0</span> coeur(s)</p>
+
+                                <form method="post" id="myRate" style="">
+                                    <input type="hidden" value="{{ recipe.id_recipe }}" name="id_recipe">
+                                    <input type="hidden" name="rate" id="rate">
+                                    <button name="rateBtn" value="rateBtn" type="submit" class="btn btn-primary">Vote
+                                    </button>
+                                </form>
+                            </div>
+                        {% else %}
+                            <a class="button primary btn-block text-center"
+                               href="{{ path("user_login", {redirect: global.request.requestUri}) }}">Connectez-vous!</a>
+                        {% endif %}
+                    </aside>
+                    <!-- Widget -->
+                    <aside class="widget widget-posts">
+
+                        <div class="widget-title"><h3>Les plus commentées</h3></div>
+                        <div class="widget-posts-list">
+                            <!-- Entry -->
+                            {% for topComment in topComment %}
+                                <div class="post">
+                                    <div class="entry-photo">
+                                        <img src="{{ asset('photo/' ~ topComment.picture_recipe) }}"
+                                             alt="photo recette"/>
+                                    </div>
+                                    <div class="entry-title">
+                                        <a href="{{ path('recipe_index', {id_recipe: topComment.id_recipe}) }}">{{ topComment.title }}</a>
+                                    </div>
+                                    <div class="entry-controls minimal">
+                                        <span class="control-tip"> <i
+                                                    class="fa fa-comments"></i> {{ topComment.topComment }}</span>
+                                    </div>
+                                </div> <!-- .entry -->
+                            {% endfor %}
+                        </div>
+
+                    </aside> <!-- .widget -->
+                    <!-- / Widget -->
+
+                    <!-- Widget -->
+                    <aside class="widget widget-categories">
+
+                        <div class="widget-title"><h3>Categories</h3></div>
+                        {% for totalStarIngredient in totalStarIngredient %}
+                            <ul>
+                                <li><a href="{{ path('recipe_list') }}">{{ totalStarIngredient.star_ingredient }} <span
+                                                class="mark light-gray">{{ totalStarIngredient.total }}</span></a></li>
+                            </ul>
+                        {% endfor %}
+                    </aside> <!-- .widget -->
+                    <!-- / Widget -->
+
+                    <!-- Widget -->
+                    <aside class="widget widget-authors">
+
+                        <div class="widget-title"><h3>Les plus actifs !</h3></div>
+                        <ul>
+                            {% for topAuthor in topAuthor %}
+                                <li>
+                                    <img src="{% if topAuthor.user_picture %}{{ asset('photo/' ~ topAuthor.user_picture) }}{% else %}https://www.gravatar.com/avatar/{{ topAuthor.username|gravatar_hash }}?d=retro&s=150{% endif %}"
+                                         alt="avatar utilisateur"/>
+                                    <div class="author-name"><a
+                                                href="{{ path('user_profil_public',{id_user: topAuthor.id_user}) }}">{{ topAuthor.username }}</a>
+                                        <span class="mark green" title="Pro member!">Pro</span>
+                                    </div>
+                                    <div class="author-meta">
+                                    <span class="meta" title="421 total recipes submited"><i
+                                                class="fa fa-newspaper-o"></i> Nombre de recettes : {{ topAuthor.result }}</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </aside> <!-- .widget -->
+                </div> <!-- .the-sidebar -->
+            </div> <!-- .rw-sidebar -->
+
+
+            <!-- Main content -->
+            <div class="rw-column rw-content">
+                <div class="rw-row page-breadcrumb">
+                    <a href="{{ path('homepage') }}">Accueil</a> &raquo; <a
+                            href="{{ path('recipe_list') }}">Recettes</a> &raquo; <span>{{ recipe.title }}</span>
+                </div>
+                <div class="rw-row page-title">
+
+                    <h1>{{ recipe.title }}</h1>
+
+                </div>
+                <div class="rw-row">
+                    <!--
+                    // ===================================^__^=================================== //
+                       Entry first
+                    // ===================================^__^=================================== //
+                    -->
+                    <div class="entry style-columns">
+                        <div class="entry-photo single-recipe-photo-cover">
+                            <img src="{{ asset('photo/' ~ recipe.picture_recipe) }}" alt="photo recette">
+                            <div class="recipe-tools">
+                            </div>
+                        </div>
+                        <div class="entry-content clearfix">
+                            <div class="recipe-content">
+                                <div class="single-recipe-ingredients">
+                                    <h3 class="recipe-headlines ingredients first">Ingredients de la recette:</h3>
+                                    <p>{{ recipe.ingredients|nl2br }}</p>
+                                </div>
+                                <h3 class="recipe-headlines preparation-mode">Etapes de la recette:</h3>
+                                <p>{{ recipe.methods|nl2br }}</p>
+                                <h3 class="recipe-headlines footnotes">Anecdotes:</h3>
+                                <p>{{ recipe.story }}</p>
+                            </div>
+                            <div class="recipe-meta">
+                                <ul>
+                                    <li>
+                                        <div class="entry-info-author">
+                                            <img id="photo-index"
+                                                 src="{% if user.user_picture %}{{ asset('photo/' ~ user.user_picture) }}{% else %}https://www.gravatar.com/avatar/{{ usergravatar }}?d=retro&s=150{% endif %}"
+                                                 alt="avatar utilisateur">
+                                            <div class="author-name">
+                                                Auteur de la recette : <a
+                                                        href="{{ path('user_profil_public',{id_user:recipe.id_user}) }}"><br>{{ user.username }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><i class="the-icon fa fa-calendar" title="{{ recipe.date_recipe }}"></i>
+                                        <span>{{ recipe.date_recipe|date('d/m/Y') }}</span>
+                                    </li>
+                                    <li><i class="the-icon fa fa-star-o" aria-hidden="true" title="rate"></i><span><span
+                                                    id="avg">{{ ratings|number_format(2,',', ' ') }}</span>/5 pour
+                                        <span id="voters">({{ voters }})</span> votant(s)</span></li>
+                                    <li>
+                                        <div><i class="the-icon fa fa-book" title="Categorie"></i>
+                                            <span>{{ recipe.star_ingredient }}</span></div>
+                                    </li>
+                                    <li>
+                                        <div><i class="the-icon fa fa-tasks" title="Difficulté"></i>
+                                            <span>Difficulté: {{ recipe.difficulty }}</span></div>
+                                    </li>
+                                    <li>
+                                        <div><i class="the-icon fa fa-clock-o" title="Temps de preparation"></i>
+                                            <span>{{ recipe.prep_time|date('H') }}
+                                                heure(s) {{ recipe.prep_time|date('i') }} minutes</span></div>
+                                    </li>
+                                    <li>
+                                        <div><i class="the-icon glyphicon glyphicon-time" title="Temps de cuisson"></i>
+                                            <span>{{ recipe.cook_time|date('H') }}
+                                                heure(s) {{ recipe.cook_time|date('i') }} minutes</span></div>
+                                    </li>
+                                    <li>
+                                        <div><i class="the-icon fa fa-users" title="Portions"></i>
+                                            <span>Pour {{ recipe.portion }} personnes</span></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> <!-- .entry-content -->
+                        <div class="clear"></div>
+                    </div> <!-- .entry -->
+                    <div class="clear"></div>
+                </div> <!-- .rw-row -->
+                <div class="rw-row light-gray border-tb">
+                    <div class="rw-row">
+                        <!-- <h2>Leave a Reply</h2> -->
+                        <h2>Commentaires :</h2>
+                        <button data-toggle="collapse" data-target="#demo"
+                                class="btn btn-primary btn-block btn-xs active">
+                            Afficher/Cacher les commentaires
+                        </button>
+                        <ul class="post-comments collapse" id="demo">
+                            {% for comment in comments %}
+                                <li class="comment">
+                                    <div class="comment-avatar">
+                                        <img src="{% if comment.user.user_picture %}{{ asset('photo/' ~ comment.user.user_picture) }}{% else %}https://www.gravatar.com/avatar/{{ comment.user.gravatarHash }}?d=retro&s=150{% endif %}"
+                                             class="avatar" alt="avatar utilisateur"/>
+                                    </div>
+                                    <div class="content">
+                                        <div class="comment-header">
+                                            Posté par :
+                                            <a href="{{ path('user_profil_public',{id_user:comment.id_user}) }}">{{ comment.username }}</a><span
+                                                    class="comment-time">le{{ comment.comment_date|date('d/m/Y') }}
+                                                à {{ comment.comment_date|date('H:i') }}</span>
+                                        </div>
+                                        <p>{{ comment.content }}</p>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <p>Aucun commentaire</p>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div><!-- #respond -->
+                <div class="rw-row">
+
+                    <div id="myComment" class="comment-respond clearfix">
+                        <div class="grid-container">
+                            <form method="post" class="comment-form">
+                                {% if user_manager.getUser() %}
+                                <div class="grid desk-12 alpha omega">
+                                    <div>Inscrivez un commentaire</div>
+                                    <textarea name="content"></textarea>
+                                </div>
+                                <p class="form-submit clearfix align-right">
+                                    <input name="contentBtn" class="button primary" type="submit"
+                                           value="Postez un Commentaire"/>
+                                </p>
+                            </form>
+                            {% else %}
+                                <p class="text-danger text-center">Vous devez être connecté pour commenter une
+                                    recette</p>
+                                <a class="btn btn-primary btn-block"
+                                   href="{{ path("user_login", {redirect: global.request.requestUri}) }}">Se
+                                    connecter</a>
+                            {% endif %}
+                        </div> <!-- .rw-row -->
+                    </div>
+                </div> <!-- .rw-content -->
+            </div> <!-- .rw-inner -->
+        </div> <!-- .rw-container -->
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        var postUrl = '{{ path('recipe_rating_ajax') }}';
+
+        {#var postUrl2 = '{{ path('recipe_comment_ajax') }}';#}
+
+        $('#myRate').submit(function (event) {
+            event.preventDefault();
+            var $this = $(this);
+
+            var data = $this.serialize();
+            $.post(
+                postUrl,
+                data,
+                function (response) {
+                    $('#avg').html(response.avg);
+                    var $msg = response.didpost
+                        ? '<div class="rw-row page-title"><div class="alert alert-danger">Vous avez deja voté pour cette recette</div></div>'
+                        : '<div class="rw-row page-title"><div class="alert alert-success">Votre vote a bien été enregistré</div></div>'
+                    ;
+                    $('#voters').html(response.voters);
+
+                    $(".rw-container").before($msg);
+
+                },
+                'json'
+            )
+        });
+        {#$('#myComment').submit(function (event) {#}
+        {#event.preventDefault();#}
+        {#var $this = $(this);#}
+
+        {#var data = $this.serialize();#}
+        {#$.post(#}
+        {#postUrl2,#}
+        {#data,#}
+        {#function (response) {#}
+        {#console.log(response);#}
+        {#$commentTemplates = $('<p>Posté par : {{ comment.username }}, le {{ comment.comment_date|date(\'#}
+        {#d / m / Y\') }}');#}
+        {#$('#resultComments').append(response.content);#}
+        {#},#}
+        {#'json'#}
+        {#)#}
+        {#});#}
+    </script>
+    <script src="{{ asset('js/heart.js') }}"></script>
+
+{% endblock %}

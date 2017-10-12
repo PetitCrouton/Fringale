@@ -1,0 +1,83 @@
+.map__image
+{
+	width: 100%;
+	float: left;
+}
+
+.map__image path{
+	fill: #f3482f;
+	stroke: #FFF;
+	stroke-width: 1px;
+	transition: fill 0.3s;
+}
+
+.map__image .is-active path{
+	fill: #58bde7;
+}
+
+.map__list{
+	float: right;
+	width: 100%;
+}
+
+ul.horizon li{
+	display: inline;
+	padding-left: 160px;
+}
+.map__list ul li{
+	list-style: none;
+}
+
+.map__list img {
+	border:2px solid #f3482f;
+	width: 130px;
+	height: 100px;
+}
+
+.map__list img.is-active {
+	border : 4px solid #58bde7;
+	transform: scale(1.15);
+	transition-duration: 2s;
+}
+
+.panel-body  {
+	word-break:break-all;
+}
+
+.profile-recipes-list .recipe{
+	border-bottom: none;
+}
+
+.logo{
+	width: 110px;
+	height: 85px;
+}
+
+#photo-top5{
+	width: 350px;
+	height: 216px;
+}
+#photoRegion{
+	width: 560px;
+	height: 380px;
+}
+#photo-index
+{
+	width:51px;
+	height:40px;
+}
+#image_filtre
+{
+	width:80px;
+	height:80px;
+}
+#hearts { color: #FF0000;}
+#hearts-existing { color: #87bad7;}
+
+@media only screen
+and (max-width: 780px) {
+	.map__list{
+		display: none;
+	}
+
+}

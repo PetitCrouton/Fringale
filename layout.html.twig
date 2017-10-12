@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title '' %} Projet V1</title>
+
+    {% block stylesheet %}
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Dosis">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Caveat">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('fonts/awards/awards.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/styles.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}"/>
+    {% endblock %}
+</head>
+<body>
+<section id="rw-layout" class="rw-layout"> <!--  conteneur genral du theme -->
+
+    <!--
+    // ===================================^__^=================================== //
+       Header
+    // ===================================^__^=================================== //
+    -->
+    <div class="rw-section rw-header">
+        <div class="rw-inner clearfix">
+            <div class="grid-container">
+                <div class="grid desk-8 mob-6 alpha clearfix">
+                    <div class="logo-holder">
+                        <a href="{{ path("homepage") }}">
+                            <img src="{{ asset('img/logo-moche.png') }}" class="logo" alt="logo page d'acceuil"/>
+                        </a>
+                    </div>
+                    <nav id="the-main-menu" class="main-menu-nav menu-inline" data-breakpoint="1160">
+                        <ul class="menu horizontal">
+                            <li><a href="{{ path("homepage") }}">Accueil</a></li>
+                            {{ render(url('menu_regions')) }}
+                            <li>
+                                <a href="#">Recette</a>
+                                <ul class="sub-menu">
+                                    <li><a href="{{ path('recipe_list') }}">Rechercher une recette</a></li>
+                                    {% if user_manager.user %}{# si un utilisateur est connecté #}
+                                        <li><a href="{{ path('recipe_create') }}">Ajouter une recette</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                            <!-- MENU ADMIN ----------------------------------------------------------------------------------------------->
+                            {% if user_manager.admin %}
+                                <li>
+                                    <a href="#">Menu Admin</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ path('admin_users') }}">Gestion Utilisateurs</a></li>
+                                        <li><a href="{{ path('admin_recipes') }}">Gestion Recettes</a></li>
+                                        <li><a href="{{ path('admin_comments') }}">Gestion Commentaires</a></li>
+                                        <li><a href="{{ path('admin_regions') }}">Gestion Régions</a></li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="grid desk-4 mob-6 omega">
+                    <nav id="the-user-menu" class="main-menu-nav">
+                        <ul class="menu horizontal align-right">
+                            <!-- User menu -->
+                            <li class="to-left-more">
+                                {% if user_manager.user %}{# si un utilisateur est connecté #}
+                                    <div class="user-details-in-menu">
+                                        {% if user_manager.user.getUser_picture() %}
+                                            <a href="#" class="avatar" style="font-size:20px;"><img
+                                                        src="{{ asset("photo/" ~ user_manager.user.getUser_picture()) }}"
+                                                        alt=""/> {{ user_manager.user.getUsername() }}</a>
+                                        {% else %}
+                                            <a href="#" class="avatar"><img
+                                                        src="https://www.gravatar.com/avatar/{{ user_manager.gravatar }}?d=retro&s=150"
+                                                        alt=""/></a>
+                                        {% endif %}
+                                    </div>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ path('user_profil') }}">Profil privé</a></li>
+                                        <li><a href="{{ path('recipe_create') }}">Ajouter une recette</a></li>
+                                        <li><a href="{{ path('user_logout') }}">Se déconnecter</a></li>
+                                    </ul>
+                                {% else %}
+                                    <div class="user-details-in-menu">
+                                        <a href="#"><span class="glyphicon glyphicon-user"
+                                                          style="font-size: 25px;"></span> Inscription / Connexion</a>
+                                    </div>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{ path('user_register') }}">Créer un compte</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('user_login', {redirect: global.request.requestUri}) }}">Se
+                                                connecter</a>
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div> <!-- .grid-container -->
+        </div> <!-- .rw-inner -->
+    </div> <!-- .rw-header -->
+
+
+    <!--_______________________________________________________ ADMIN _____________________________________________________________________________-->
+
+    {% block secondaryNavigation %}{% endblock %}
+
+    <!--_______________________________________________________ CONTENT _____________________________________________________________________________-->
+    {% for type, flashes in app.session.flashbag.all %}
+        {% for flash in flashes %}
+            {% if type == 'error' %}
+                {# class alert-danger du bootstrap #}
+                {% set type = 'danger' %}
+            {% endif %}
+            <div class="rw-row page-title">
+                <div class="alert alert-{{ type }}">{{ flash|raw }}</div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+
+    <!--
+     // ===================================^__^=================================== //
+        Footer
+     // ===================================^__^=================================== //
+     -->
+    <div class="rw-section rw-footer">
+        <div class="rw-inner clearfix">
+            <div class="grid-container">
+                {{ render(url('footer_counts')) }}
+                <div class="grid desk-6">
+                    <div class="footer-menu">
+                        <ul>
+                            <li><a href="{{ path('contact_index') }}">Contact</a></li>
+                            <li><a href="{{ path("aboutus_index") }}">Qui sommes nous? </a></li>
+                            <li><a href="{{ path("termsofuse_index") }}">Mention légales</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <a href="#rw-layout" class="footer-to-top" title="Go to top">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div> <!-- .layout-footer -->
+
+</section><!-- .rw-layout c'est la fin du conteneur general -->
+{% block javascripts %}
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/min/smk-menu.min.js') }}"></script>
+    <script src="{{ asset('js/rw-sidebar.js') }}"></script>
+    <script src="{{ asset('js/min/jquery.qtip.min.js') }}"></script>
+    <script src="{{ asset('js/min/smk-accordion.min.js') }}"></script>
+    <script src="{{ asset('js/min/smk-visual-select.min.js') }}"></script>
+    <script src="{{ asset('js/min/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"></script>
+{% endblock %}
+</body>
+</html>

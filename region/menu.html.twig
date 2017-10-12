@@ -1,0 +1,10 @@
+<li>
+    <a href="#">Région</a>
+    <ul class="sub-menu">
+        {% for region in regions %}
+            <li>
+                <a href="{{ path('region_index', {id_region: region.id_region }) }}">{{ region.region_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>

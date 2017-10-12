@@ -1,0 +1,68 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <!--
+        // ===================================^__^=================================== //
+           Content
+        // ===================================^__^=================================== //
+        -->
+
+    <div class="rw-container rw-section">
+        <div class="rw-inner clearfix">
+
+            <!-- Main content -->
+            <div class="rw-column rw-content">
+
+                <div class="rw-row page-breadcrumb">
+                    <a href="{{ path('homepage') }}">Accueil</a> &raquo; <span>Contact</span>
+                </div>
+                <div class="rw-row page-title">
+                    <h1>En quoi pouvons-nous vous être utile ?</h1>
+                </div>
+
+                <div class="rw-row subtle">
+                    <div class="grid-container">
+                        <div class="help-container">
+
+                            <div class="help-boxes clearfix">
+
+
+                            </div>
+
+                            <div class="ask-question-form">
+                                <form>
+                                    <div class="grid desk-7">
+                                        <div class="form-label">Votre nom :</div>
+                                        <input type="text" class="fullwidth" name="nom" placeholder="M. Patate"/>
+                                    </div>
+
+                                    <div class="grid desk-5">
+                                        <div class="form-label">Le motif de votre message :</div>
+                                        <input type="text" class="fullwidth" name="motif" placeholder="Je préfére mieux cuit !"/>
+                                    </div>
+
+                                    <div class="grid desk-12">
+                                        <div class="form-label">Votre email :</div>
+                                        <input type="text" class="fullwidth" name="email" placeholder="patate@mail.com"/>
+                                    </div>
+                                    <div class="grid desk-12">
+                                        <div class="form-label">Votre message :</div>
+                                        <textarea name="message" class="big" placeholder="Bonjour l'équipe !"></textarea>
+                                    </div>
+
+                                    <div class="grid desk-12">
+                                        <input type="submit" name="envoi" value="Envoyer" class="button primary" />
+                                    </div>
+
+                                </form>
+                            </div>
+
+                        </div> <!-- .help-container -->
+                    </div> <!-- .grid-container -->
+                </div> <!-- .rw-row -->
+
+            </div> <!-- .rw-content -->
+
+        </div> <!-- .rw-inner -->
+    </div> <!-- .rw-container -->
+{% endblock %}
